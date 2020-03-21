@@ -1,9 +1,25 @@
 #!/usr/bin/env ruby
 
 require 'gtk3'
+require 'fileutils'
 
+#Requires all ruby files in the application folder
 application_root_path = File.expand_path(__dir__)
 Dir[File.join(application_root_path, '**', '*.rb')].each { |file| require file}
+
+#Defining source and target files of the glib-compile-resources command
+resource_xml = File.join(application_root_path, 'resources', 'gresources.xml')
+resource_bin = File.join(application_root_path, 'gresource.bin')
+
+#Building the binary
+system("glib-compile-resources", "--target", resource_bin, "--sourcedir", File.dirname(resource_xml), resource_xml)
+
+at_exit do
+    #Removing the binary befor exiting
+    FileUtils.rm_f(resource_bin)
+end
+
+
 app = Texto::Application.new
 
 puts app.run
