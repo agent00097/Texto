@@ -4,8 +4,7 @@ module Texto
             super 'com.agent97.texto', Gio::ApplicationFlags::FLAGS_NONE
 
             signal_connect :activate do |application|
-                window = Gtk::ApplicationWindow.new(application)
-                window.set_title 'Texto!'
+                window = Texto::ApplicationWindow.new(application)
                 window.present
             end
         end

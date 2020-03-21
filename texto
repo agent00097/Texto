@@ -14,6 +14,9 @@ resource_bin = File.join(application_root_path, 'gresource.bin')
 #Building the binary
 system("glib-compile-resources", "--target", resource_bin, "--sourcedir", File.dirname(resource_xml), resource_xml)
 
+resource = Gio::Resource.load(resource_bin)
+Gio::Resources.register(resource)
+
 at_exit do
     #Removing the binary befor exiting
     FileUtils.rm_f(resource_bin)
